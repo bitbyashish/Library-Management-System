@@ -103,6 +103,42 @@ When a book’s availabilityStatus changes from BORROWED to AVAILABLE:
 Notification prepared for user_id: 1: Book [Effective Java] is now available.
 
 ------------------------------------------------------------
+GLOBAL EXCEPTION HANDLING
+------------------------------------------------------------
+
+The API includes a global exception handler to ensure all errors return clean and consistent JSON responses.
+
+Handled Cases:
+
+1. Validation Errors (e.g., missing or invalid fields):
+   HTTP 400 Bad Request
+   Example response:
+   {
+     "message": "Validation failed",
+     "errors": {
+       "title": "must not be blank",
+       "isbn": "must not be null"
+     }
+   }
+
+2. Runtime Exceptions (e.g., duplicate ISBN):
+   HTTP 400 Bad Request
+   Example response:
+   {
+     "message": "ISBN must be unique."
+   }
+
+3. All Other Exceptions:
+   HTTP 500 Internal Server Error
+   Example response:
+   {
+     "message": "Internal server error"
+   }
+
+This improves API usability and makes error handling predictable for clients.
+
+
+------------------------------------------------------------
 RUNNING TESTS
 ------------------------------------------------------------
 
